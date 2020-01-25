@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+		 a{
+			font-family: 'Rock Salt', cursive;
+		}
+		h2{
+			font-family: 'Sedgwick Ave Display', cursive;
+			font-size: 64px;
+		}		
+</style>
+<br><br>
+<h2>Files</h2>
+
+<form method="Get" action="">
+<input type="text" name = "q" placeholder="Search files"/>
+<input type="Submit" value="Search" />	
+</form>
+	
+	<p>
+		<center><a href="{% url 'upload_file' %}" class="btn btn-primary">Upload File</a></center>
+
+	</p>
+
+<br><br>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>FileName</th>
+			<th> FileType</th>
+			<th>Download</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for file in files %}
+			<tr>
+				<td>{{file.title}}</td>
+				<td>{{file.file_type}}</td>
+				<td>
+					<a href="{{file.file.url}}" class="btn btn-primary btn-sm" target="_blank"> Download File</a>
+				</td>
+				<td>
+					<form method="POST" action="{% url 'delete_file' file.pk %}">
+						{% csrf_token %}
+						<button type="Submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+
+	
+</table>
+
+{% endblock %}
